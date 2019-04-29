@@ -6,7 +6,7 @@ var cabecera = document.getElementById("cabecera");
 cabecera.innerHTML = '\
 <div class="row align-items-center">\
   <div class="col-md-2">\
-    <a href="home.html"><img src="img/tgif-logo.png" class="img-fluid rounded" alt="tgif-logo"></a>\
+    <a href="index.html"><img src="img/tgif-logo.png" class="img-fluid rounded" alt="tgif-logo"></a>\
   </div>\
   <div class="col-md-8 text-center">\
     <h2>Transparent Government in Fact</h2>\
