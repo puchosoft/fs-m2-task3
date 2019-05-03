@@ -18,6 +18,29 @@ cabecera.innerHTML = '\
 </div>\
 ';
 
+// ********************************************************
+// Agrega una barra de links a un contenedor con id="barra"
+// ********************************************************
+var barra = document.getElementById("barra");
+if(barra != null){
+  barra.innerHTML = '\
+  <nav class="navbar navbar-default border border-secondary rounded py-0">\
+    <ul class="nav flex-row">\
+      <li class="nav-item" id="home">\
+        <a class="nav-link" href="#">Home</a>\
+      </li>\
+      <li  class="nav-item dropdown" id="congress">\
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown">Congress 113 </a>\
+        <div class="dropdown-menu">\
+          <a class="dropdown-item" href="house-data.html">House</a>\
+          <a class="dropdown-item" href="senate-data.html">Senate</a>\
+        </div>\
+      </li>\
+    </ul>\
+  </nav>\
+  ';
+}
+
 // ***************************************************************************
 // Agrega un contenedor con checkboxs y dropdown para filtrar con id="filtros"
 // ***************************************************************************
