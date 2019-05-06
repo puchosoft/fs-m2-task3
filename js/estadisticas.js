@@ -75,4 +75,6 @@ statistics.Senate_at_a_glance[0].Number_of_Reps = republicans.length;
 statistics.Senate_at_a_glance[1].Number_of_Reps = democrats.length;
 statistics.Senate_at_a_glance[2].Number_of_Reps = independents.length;
 
+//cambios
+
 console.log(JSON.stringify(statistics));
