@@ -27,7 +27,7 @@ if(barra != null){
   <nav class="navbar navbar-default border border-secondary rounded py-0">\
     <ul class="nav flex-row">\
       <li class="nav-item" id="home">\
-        <a class="nav-link" href="#">Home</a>\
+        <a class="nav-link" href="index.html">Home</a>\
       </li>\
       <li  class="nav-item dropdown" id="congress">\
         <a class="nav-link dropdown-toggle" data-toggle="dropdown">Congress 113 </a>\
@@ -39,6 +39,8 @@ if(barra != null){
     </ul>\
   </nav>\
   ';
+  var linkActivo = document.getElementById(barra.dataset.activo);
+  linkActivo.className += ' active';
 }
 
 // ***************************************************************************
