@@ -101,6 +101,11 @@ function vwp(m){
   return Math.round((m.total_votes - m.missed_votes) * m.votes_with_party_pct / 100);
 }
 
+// Ordena miembros de un array segun un "key" en un "order" indicado
+function orderMembersByKey(array, key, order){
+	array.sort((a,b) => ( order ? a[key]-b[key] : b[key]-a[key] ) );
+}
+
 /* Obtenemos un array con los miembros con porcentajes <= al limite menor,
 mapeamos solamente los datos necesarios y lo ordenamos de menor a mayor */
 var bottom_10_pct_members = miembros.filter(miembro => miembro.votes_with_party_pct <= bottom_10_pct_limit).map(miembro => m =
@@ -111,7 +116,8 @@ var bottom_10_pct_members = miembros.filter(miembro => miembro.votes_with_party_
   votes_with_party: vwp(miembro),
   votes_with_party_pct : miembro.votes_with_party_pct
 });
-bottom_10_pct_members.sort((a,b) => a.votes_with_party_pct - b.votes_with_party_pct);
+
+orderMembersByKey(bottom_10_pct_members, 'votes_with_party_pct', true);
 
 /* Obtenemos un array con los miembros con porcentajes >= al limite mayor
 mapeamos solamente los datos necesarios y lo ordenamos de mayor a menor */
@@ -123,7 +129,18 @@ var top_10_pct_members = miembros.filter(miembro => miembro.votes_with_party_pct
   votes_with_party: vwp(miembro),
   votes_with_party_pct : miembro.votes_with_party_pct
 });
-top_10_pct_members.sort((a,b) => b.votes_with_party_pct - a.votes_with_party_pct);
+
+orderMembersByKey(top_10_pct_members,'votes_with_party_pct', false);
+
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+function getMembersByPct(array, key, botton_top){
+	var reference = array.map(m => m[key]);
+	reference.sort((a,b) => (botton_top ? a-b : b-a));
+	//var limit =
+	var extracion = array.filter(m => (m[key] <= limit));
+}
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
 console.log('\nSenate at a glance');
 console.log(JSON.stringify(statistics));
