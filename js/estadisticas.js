@@ -31,7 +31,7 @@ function getMiembrosByParty(party){
 }
 
 function getPorcentAvgOfParty(party){
-	var promedio = (party.length>0?(party.reduce((suma,miembro)=>(suma + miembro.votes_with_party_pct),0)/party.length).toFixed(2):'-');
+	var promedio = (party.length>0?(party.reduce((suma,miembro)=>(suma + miembro.votes_with_party_pct),0)/party.length).toFixed(2):(0).toFixed(2));
 	return(promedio);
 }
 
@@ -53,7 +53,7 @@ function getMembersByPct(array, key, pct, bottom_top){
 	reference.sort((a,b) => (bottom_top ? a-b : b-a));
   // Obtiene el key limite para comparar durante la extraccion
 	var limit = reference[Math.round(array.length * pct/100)-1];
-  // Extrae los elementos que cumplen con "key <= limit"
+  // Extrae los elementos que cumplen con "limit"
 	var extract = array.filter(m => (bottom_top ? m[key] <= limit : m[key] >= limit));
   return (extract);
 }
@@ -75,7 +75,7 @@ function storeStatistics(key, array){
     function(m){
       var name = memberFullName(m);
       var votes = (k1.startsWith('missed') ? m[k1] : vwp(m));
-      var pct = m[k2];
+      var pct = m[k2].toFixed(2);
       statistics[key].push({
         'name' : name,
         [k1] : votes,

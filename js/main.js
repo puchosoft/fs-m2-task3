@@ -39,14 +39,14 @@ if(barra != null){
       <li  class="nav-item dropdown" id="attendance">\
         <a class="nav-link dropdown-toggle" data-toggle="dropdown">Attendance</a>\
         <div class="dropdown-menu">\
-          <a class="dropdown-item" href="#">House</a>\
+          <a class="dropdown-item" href="house-attendance.html">House</a>\
           <a class="dropdown-item" href="senate-attendance.html">Senate</a>\
         </div>\
       </li>\
       <li  class="nav-item dropdown" id="party-loyalty">\
         <a class="nav-link dropdown-toggle" data-toggle="dropdown">Party Loyalty</a>\
         <div class="dropdown-menu">\
-          <a class="dropdown-item" href="#">House</a>\
+          <a class="dropdown-item" href="house-party-loyalty.html">House</a>\
           <a class="dropdown-item" href="senate-party-loyalty.html">Senate</a>\
         </div>\
       </li>\
