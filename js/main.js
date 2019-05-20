@@ -30,10 +30,24 @@ if(barra != null){
         <a class="nav-link" href="index.html">Home</a>\
       </li>\
       <li  class="nav-item dropdown" id="congress">\
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown">Congress 113 </a>\
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown">Congress 113</a>\
         <div class="dropdown-menu">\
           <a class="dropdown-item" href="house-data.html">House</a>\
           <a class="dropdown-item" href="senate-data.html">Senate</a>\
+        </div>\
+      </li>\
+      <li  class="nav-item dropdown" id="attendance">\
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown">Attendance</a>\
+        <div class="dropdown-menu">\
+          <a class="dropdown-item" href="#">House</a>\
+          <a class="dropdown-item" href="senate-attendance.html">Senate</a>\
+        </div>\
+      </li>\
+      <li  class="nav-item dropdown" id="party-loyalty">\
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown">Party Loyalty</a>\
+        <div class="dropdown-menu">\
+          <a class="dropdown-item" href="#">House</a>\
+          <a class="dropdown-item" href="senate-party-loyalty.html">Senate</a>\
         </div>\
       </li>\
     </ul>\

@@ -1,60 +1,37 @@
 var statistics = {
-  "Senate_at_a_glance" : [
+  "at_a_glance" : [
     {
-      "Party" : "Republican",
-      "Number_of_Reps": 0,
+      "party" : "Republican",
+      "number_of_reps": 0,
       "votes_with_party_pct" : 0
     },
     {
-      "Party" : "Democrat",
-      "Number_of_Reps": 0,
+      "party" : "Democrat",
+      "number_of_reps": 0,
       "votes_with_party_pct" : 0
     },
     {
-      "Party" : "Independent",
-      "Number_of_Reps": 0,
+      "party" : "Independent",
+      "number_of_reps": 0,
       "votes_with_party_pct" : 0
     },
   ],
 
-  "Total" :{
-      "Party" : "Total",
-      "Number_of_Reps": 0,
+  "total" :{
+      "party" : "Total",
+      "number_of_reps": 0,
       "votes_with_party_pct" : 0
     },
 
-/*  "Least_Engaged" : [
-    {
-      "Name" : "",
-      "Number_of_Missed_Votes" : 0,
-      "%_Missed" : 0
-    }
-  ],
+  "least_engaged" : [],
 
-  "Most_Engaged" : [
-    {
-      "Name" : "",
-      "Number_of_Missed_Votes" : 0,
-      "%_Missed" : 0
-    }
-  ],
+  "most_engaged" : [],
+  
+  "least_loyal" : [],
 
-  "Least_Loyal" : [
-    {
-      "Name" : "",
-      "Number_Party_Votes" : 0,
-      "%_Party_Votes" : 0
-    }
-  ],
-
-  "Most_Loyal" : [
-    {
-      "Name" : "",
-      "Number_Party_Votes" : 0,
-      "%_Party_Votes" : 0
-    }
-  ] */
+  "most_loyal" : []
 };
+
 function getMiembrosByParty(party){
 	return(miembros.filter(miembro => miembro.party == party));
 }
@@ -63,38 +40,6 @@ function getPorcentAvgOfParty(party){
 	var promedio = (party.length>0?(party.reduce((suma,miembro)=>(suma + miembro.votes_with_party_pct),0)/party.length).toFixed(2):'-');
 	return(promedio);
 }
-
-// Crea un array con los miembros de la camara
-var miembros = data.results[0].members;
-
-var republicans = getMiembrosByParty("R");
-var democrats = getMiembrosByParty("D");
-var independents = getMiembrosByParty("I");
-
-statistics.Senate_at_a_glance[0].Number_of_Reps = republicans.length;
-statistics.Senate_at_a_glance[1].Number_of_Reps = democrats.length;
-statistics.Senate_at_a_glance[2].Number_of_Reps = independents.length;
-
-statistics.Senate_at_a_glance[0].votes_with_party_pct = getPorcentAvgOfParty(republicans);
-statistics.Senate_at_a_glance[1].votes_with_party_pct = getPorcentAvgOfParty(democrats);
-statistics.Senate_at_a_glance[2].votes_with_party_pct = getPorcentAvgOfParty(independents);
-
-statistics.Total.Number_of_Reps = statistics.Senate_at_a_glance.reduce((suma,party)=>(suma + party.Number_of_Reps),0);
-
-// Totalizamos los porcentajes de cada partido en forma ponderada
-statistics.Total.votes_with_party_pct = (statistics.Senate_at_a_glance.reduce((suma,party)=>(suma + party.votes_with_party_pct * party.Number_of_Reps / statistics.Total.Number_of_Reps),0)).toFixed(2);
-
-/* Obtenemos un array con los votes_with_party_pct de todos los miembros
-y lo ordenamos de menor a mayor */
-var vwp_pct = miembros.map(miembro => miembro.votes_with_party_pct);
-vwp_pct.sort((a,b) => a-b);
-
-var numMembers = miembros.length;
-
-// Obtenemos el porcentaje ubicado en la posicion 10% del total (limite menor)
-var bottom_10_pct_limit = vwp_pct[Math.round(numMembers * 0.1)-1];
-// Obtenemos el porcentaje ubicado en la posicion 90% del total (limite mayor)
-var top_10_pct_limit = vwp_pct[numMembers - Math.round(numMembers * 0.1)];
 
 // Calcula los "votes_with_party" de un miembro
 function vwp(m){
@@ -106,45 +51,95 @@ function orderMembersByKey(array, key, order){
 	array.sort((a,b) => ( order ? a[key]-b[key] : b[key]-a[key] ) );
 }
 
-/* Obtenemos un array con los miembros con porcentajes <= al limite menor,
-mapeamos solamente los datos necesarios y lo ordenamos de menor a mayor */
-var bottom_10_pct_members = miembros.filter(miembro => miembro.votes_with_party_pct <= bottom_10_pct_limit).map(miembro => m =
-{
-  first_name : miembro.first_name,
-  middle_name : miembro.middle_name,
-  last_name : miembro.last_name,
-  votes_with_party: vwp(miembro),
-  votes_with_party_pct : miembro.votes_with_party_pct
-});
-
-orderMembersByKey(bottom_10_pct_members, 'votes_with_party_pct', true);
-
-/* Obtenemos un array con los miembros con porcentajes >= al limite mayor
-mapeamos solamente los datos necesarios y lo ordenamos de mayor a menor */
-var top_10_pct_members = miembros.filter(miembro => miembro.votes_with_party_pct >= top_10_pct_limit).map(miembro => m =
-{
-  first_name : miembro.first_name,
-  middle_name : miembro.middle_name,
-  last_name : miembro.last_name,
-  votes_with_party: vwp(miembro),
-  votes_with_party_pct : miembro.votes_with_party_pct
-});
-
-orderMembersByKey(top_10_pct_members,'votes_with_party_pct', false);
-
-/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-function getMembersByPct(array, key, botton_top){
-	var reference = array.map(m => m[key]);
-	reference.sort((a,b) => (botton_top ? a-b : b-a));
-	//var limit =
-	var extracion = array.filter(m => (m[key] <= limit));
+//  Devuelve un array con la extraccion del pct% mayor/menor segun una "key"
+function getMembersByPct(array, key, pct, bottom_top){
+	// Obtienen lista de keys de referencia
+  var reference = array.map(m => m[key]);
+  // Ordena la lista de keys "bottom_top"
+	reference.sort((a,b) => (bottom_top ? a-b : b-a));
+  // Obtiene el key limite para comparar durante la extraccion
+	var limit = reference[Math.round(array.length * pct/100)-1];
+  // Extrae los elementos que cumplen con "key <= limit"
+	var extract = array.filter(m => (bottom_top ? m[key] <= limit : m[key] >= limit));
+  return (extract);
 }
-/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-console.log('\nSenate at a glance');
+// Devuelve el nombre completo del miembro
+function memberFullName(member){
+  var name = member.first_name;
+  name += (member.middle_name?' '+member.middle_name:'');
+  name += ' ' + member.last_name;
+  return(name);
+}
+
+// Almacena los datos utiles de "array" en el elemento "key" del objeto "statistics"
+function storeStatistics(key, array){
+  // Define los claves a almacenar segun el elemento "key" indicado
+  var k1 = (key.endsWith('engaged')?'missed_votes':'votes_with_party');
+  var k2 = (key.endsWith('engaged')?'missed_votes_pct':'votes_with_party_pct');
+  array.forEach(
+    function(m){
+      var name = memberFullName(m);
+      var votes = (k1.startsWith('missed') ? m[k1] : vwp(m));
+      var pct = m[k2];
+      statistics[key].push({
+        'name' : name,
+        [k1] : votes,
+        [k2] : pct
+      });
+    }
+  );
+}
+
+// Crea un array con los miembros de la camara
+var miembros = data.results[0].members;
+
+// Calcula estadisticas "De un vistazo"
+var republicans = getMiembrosByParty("R");
+var democrats = getMiembrosByParty("D");
+var independents = getMiembrosByParty("I");
+
+statistics.at_a_glance[0].number_of_reps = republicans.length;
+statistics.at_a_glance[1].number_of_reps = democrats.length;
+statistics.at_a_glance[2].number_of_reps = independents.length;
+
+statistics.at_a_glance[0].votes_with_party_pct = getPorcentAvgOfParty(republicans);
+statistics.at_a_glance[1].votes_with_party_pct = getPorcentAvgOfParty(democrats);
+statistics.at_a_glance[2].votes_with_party_pct = getPorcentAvgOfParty(independents);
+
+statistics.total.number_of_reps = statistics.at_a_glance.reduce((suma,party)=>(suma + party.number_of_reps),0);
+
+// Totaliza los porcentajes "De un vistazo" en forma ponderada
+statistics.total.votes_with_party_pct = (statistics.at_a_glance.reduce((suma,party)=>(suma + party.votes_with_party_pct * party.number_of_reps / statistics.total.number_of_reps),0)).toFixed(2);
+
+var loyalty = document.getElementById("loyalty");
+if(loyalty != null){
+  /*  Obtiene un array del 10% de miembros MENOS LEALES,
+      lo ordena de menor a mayor y almacena lo importante en 'statistics' */
+  var bottom_10_pct_members = getMembersByPct(miembros, 'votes_with_party_pct', 10, true);
+  orderMembersByKey(bottom_10_pct_members, 'votes_with_party_pct', true);
+  storeStatistics('least_loyal', bottom_10_pct_members);
+
+  /*  Obtiene un array del 10% de miembros MAS LEALES,
+      lo ordena de mayor a menor  y almacena lo importante en 'statistics' */
+  var top_10_pct_members = getMembersByPct(miembros, 'votes_with_party_pct', 10, false);
+  orderMembersByKey(top_10_pct_members,'votes_with_party_pct', false);
+  storeStatistics('most_loyal', top_10_pct_members);
+}
+
+var engaged = document.getElementById("engaged");
+if(engaged != null){
+  /*  Obtiene un array del 10% de miembros MENOS COMPROMETIDOS,
+      lo ordena de mayor a menor y almacena lo importante en 'statistics' */
+  var bottom_10_pct_members = getMembersByPct(miembros, 'missed_votes_pct', 10, false);
+  orderMembersByKey(bottom_10_pct_members, 'missed_votes_pct', false);
+  storeStatistics('least_engaged', bottom_10_pct_members);
+
+  /*  Obtiene un array del 10% de miembros MAS COMPROMETIDOS,
+      lo ordena de menor a mayor  y almacena lo importante en 'statistics' */
+  var top_10_pct_members = getMembersByPct(miembros, 'missed_votes_pct', 10, true);
+  orderMembersByKey(top_10_pct_members,'missed_votes_pct', true);
+  storeStatistics('most_engaged', top_10_pct_members);
+}
+
 console.log(JSON.stringify(statistics));
-console.log('\nLeast Loyal (Bottom 10% of Party)');
-console.log(JSON.stringify(bottom_10_pct_members));
-console.log('\nMost Loyal (Top 10% of Party)');
-console.log(JSON.stringify(top_10_pct_members));
