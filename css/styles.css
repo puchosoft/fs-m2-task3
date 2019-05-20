@@ -40,3 +40,7 @@ td, th {
 tr td:nth-Child(1){
   text-align:left;
 }
+
+hr {
+  border:1px solid darkgrey;
+}
